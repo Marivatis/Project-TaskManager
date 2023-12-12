@@ -1,5 +1,5 @@
 ﻿
-namespace ProjectB_TaskManager.Enums
+namespace ProjectС_TaskManager.Enums
 {
     public enum MyTaskStatus
     {

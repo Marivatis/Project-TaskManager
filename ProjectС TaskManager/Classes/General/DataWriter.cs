@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
-using ProjectB_TaskManager.Classes.MyTasks;
+using ProjectС_TaskManager.Classes.MyTasks;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
 
-namespace ProjectB_TaskManager.Classes.General
+namespace ProjectС_TaskManager.Classes.General
 {
     public class ListDataWriter<T>
     {

@@ -1,11 +1,11 @@
-﻿using ProjectB_TaskManager.Interfaces;
+﻿using ProjectС_TaskManager.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-namespace ProjectB_TaskManager.Classes.MyTasks
+namespace ProjectС_TaskManager.Classes.MyTasks
 {
     public class MyTaskManager : ICollection, IEnumerable<MyTask>, IDuplicateCheckable
     {

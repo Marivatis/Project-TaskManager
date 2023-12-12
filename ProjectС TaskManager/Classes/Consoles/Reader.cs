@@ -1,8 +1,8 @@
-﻿using ProjectB_TaskManager.Enums;
+﻿using ProjectС_TaskManager.Enums;
 using System;
 using System.Globalization;
 
-namespace ProjectB_TaskManager.Classes.Consoles
+namespace ProjectС_TaskManager.Classes.Consoles
 {
     public class Reader
     {

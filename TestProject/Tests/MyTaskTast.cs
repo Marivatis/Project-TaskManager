@@ -1,5 +1,5 @@
-﻿using ProjectB_TaskManager.Classes.MyTasks;
-using ProjectB_TaskManager.Enums;
+﻿using ProjectС_TaskManager.Classes.MyTasks;
+using ProjectС_TaskManager.Enums;
 
 namespace TestProject.Tests
 {

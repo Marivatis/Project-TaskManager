@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectB_TaskManager.Classes.Consoles
+namespace ProjectС_TaskManager.Classes.Consoles
 {
     public static class Printer
     {

@@ -2,9 +2,9 @@
 using System;
 using Newtonsoft.Json;
 using System.IO;
-using ProjectB_TaskManager.Classes.MyTasks;
+using ProjectС_TaskManager.Classes.MyTasks;
 
-namespace ProjectB_TaskManager.Classes.General
+namespace ProjectС_TaskManager.Classes.General
 {
     public class ListDataReader
     {

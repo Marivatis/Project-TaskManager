@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectB_TaskManager.Classes.MyTasks
+namespace ProjectС_TaskManager.Classes.MyTasks
 {
     public class MyTaskConverter : JsonConverter<MyTask>
     {

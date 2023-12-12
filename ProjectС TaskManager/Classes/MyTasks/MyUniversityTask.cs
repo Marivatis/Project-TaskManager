@@ -1,5 +1,5 @@
-﻿using ProjectB_TaskManager.Classes.General;
-using ProjectB_TaskManager.Enums;
+﻿using ProjectС_TaskManager.Classes.General;
+using ProjectС_TaskManager.Enums;
 using ProjectС_TaskManager.Enums;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectB_TaskManager.Classes.MyTasks
+namespace ProjectС_TaskManager.Classes.MyTasks
 {
     public class MyUniversityTask : MyTask
     {

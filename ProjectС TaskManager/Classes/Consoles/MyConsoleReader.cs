@@ -1,9 +1,9 @@
-﻿using ProjectB_TaskManager.Enums;
+﻿using ProjectС_TaskManager.Classes.MyTasks;
 using ProjectС_TaskManager.Enums;
 using System;
 using System.Globalization;
 
-namespace ProjectB_TaskManager.Classes.Consoles
+namespace ProjectС_TaskManager.Classes.Consoles
 {
     internal class MyConsoleReader : Reader
     {
@@ -75,6 +75,15 @@ namespace ProjectB_TaskManager.Classes.Consoles
             }
 
             return date;
+        }
+
+        public static Type ReadMyTaskType()
+        {
+            string typeString = ReadString("Enter task type [University/General] --> ");
+
+            Type type = typeString.Equals("General") ? typeof(MyGeneralTask) : typeof(MyUniversityTask);
+
+            return type;
         }
 
         public static T ReadEnum<T>(string inputMessage)

@@ -1,6 +1,6 @@
-﻿using ProjectB_TaskManager.Classes.MyTasks;
+﻿using ProjectС_TaskManager.Classes.MyTasks;
 
-namespace ProjectB_TaskManager.Interfaces
+namespace ProjectС_TaskManager.Interfaces
 {
     public interface IDuplicateCheckable
     {

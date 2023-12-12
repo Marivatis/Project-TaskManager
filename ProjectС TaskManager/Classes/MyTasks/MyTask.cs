@@ -1,7 +1,7 @@
-﻿using ProjectB_TaskManager.Enums;
+﻿using ProjectС_TaskManager.Enums;
 using System;
 
-namespace ProjectB_TaskManager.Classes.MyTasks
+namespace ProjectС_TaskManager.Classes.MyTasks
 {
     public abstract class MyTask : ITablePrintable
     {

@@ -1,5 +1,5 @@
 ﻿
-namespace ProjectB_TaskManager
+namespace ProjectС_TaskManager
 {
     public interface ITablePrintable
     {

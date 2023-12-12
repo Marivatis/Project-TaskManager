@@ -53,6 +53,7 @@
     <Compile Include="Classes\Consoles\TablePrinter.cs" />
     <Compile Include="Classes\General\DataWriter.cs" />
     <Compile Include="Classes\General\ListDataReader.cs" />
+    <Compile Include="Classes\General\LocalDataManager.cs" />
     <Compile Include="Classes\General\Program.cs" />
     <Compile Include="Classes\General\StringFormatter.cs" />
     <Compile Include="Classes\MyTasks\MyGeneralTask.cs" />

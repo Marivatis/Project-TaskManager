@@ -1,29 +1,31 @@
-﻿using ProjectB_TaskManager.Classes.General;
-using ProjectB_TaskManager.Classes.MyTasks;
-using ProjectB_TaskManager.Enums;
+﻿using ProjectС_TaskManager.Classes.MyTasks;
 using ProjectС_TaskManager.Enums;
+using ProjectС_TaskManager.Classes.General;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
-namespace ProjectB_TaskManager.Classes.Consoles
+namespace ProjectС_TaskManager.Classes.Consoles
 {
     public class MyConsole
     {
-        private string path;
+        private string tasksListPath;
+
+        private LocalDataManager localDataManager;
 
         private MyTaskManager taskManager;
 
         public MyConsole() 
         {
-            GetProgramFilesPath();
+            localDataManager = new LocalDataManager();
 
-            Console.WriteLine($"[Tasks saving file path is: {path}]");
+            tasksListPath = Path.Combine(localDataManager.MianProjectPath, "Tasks", "Tasks.json");
+            Console.WriteLine($"[Tasks saving file path is: {tasksListPath}]");
 
-            LoadTasks();
+            localDataManager.LoadList(tasksListPath, out List<MyTask> tasks);
+
+            taskManager = new MyTaskManager(tasks);
         }
 
         public void Run()
@@ -47,7 +49,7 @@ namespace ProjectB_TaskManager.Classes.Consoles
             switch (mainMenuOption)
             {
                 case 0:
-                    SaveTasks();
+                    localDataManager.SaveList(tasksListPath, taskManager.ToList());
 
                     Console.WriteLine("Have a nice day!");
                     break;
@@ -188,14 +190,6 @@ namespace ProjectB_TaskManager.Classes.Consoles
             }
         }
 
-        private Type ReadMyTaskType()
-        {
-            string typeString = MyConsoleReader.ReadString("Enter task type [University/General] --> ");
-
-            Type type = typeString.Equals("General") ? typeof(MyGeneralTask) : typeof(MyUniversityTask);
-
-            return type;
-        }
         private void PrintTasks(MyTaskManager manager)
         {
             if (manager.Count == 0)
@@ -217,14 +211,14 @@ namespace ProjectB_TaskManager.Classes.Consoles
                 return;
             }
 
-            List<ITablePrintable> list = ToTablePrintableList(manager.ToList(), type);
+            List<ITablePrintable> list = TablePrinter.ToTablePrintableList(manager.ToList(), type);
             TablePrinter tablePrinter = new TablePrinter(list);
             tablePrinter.PrintTable();
         }
 
         private void RemoveTask()
         {
-            Type type = ReadMyTaskType();
+            Type type = MyConsoleReader.ReadMyTaskType();
             PrintTasks(taskManager, type);
 
             int id = MyConsoleReader.ReadInt32("Enter task id you want to remove --> ", 1, 99);
@@ -241,17 +235,15 @@ namespace ProjectB_TaskManager.Classes.Consoles
 
             Console.WriteLine("No task whith this id was found.");
         }
-
         private void MarkTaskAsCompleted()
         {
-            Type type = ReadMyTaskType();
+            Type type = MyConsoleReader.ReadMyTaskType();
             PrintTasks(taskManager, type);
 
             int id = MyConsoleReader.ReadInt32("Enter task id you completed --> ", 1, 99);
 
             taskManager.MarkAsCompleted(id);
         }
-
         private void FilterTasks()
         {
             Printer.PrintFilterMenu();
@@ -292,42 +284,6 @@ namespace ProjectB_TaskManager.Classes.Consoles
             string info = string.Join(", ", enumValues);
 
             return info;
-        }
-
-        private void GetProgramFilesPath()
-        {
-            string basePath = AppDomain.CurrentDomain.BaseDirectory;
-            string relativePath = Path.Combine("..", "..", "..", "Tasks","Tasks.json");
-
-            path = Path.GetFullPath(Path.Combine(basePath, relativePath));
-        }
-        private void SaveTasks()
-        {
-            ListDataWriter<MyTask> dataWriter = new ListDataWriter<MyTask>(taskManager.ToList());
-            dataWriter.WriteToJsonFile(path);
-        }
-        private void LoadTasks()
-        {
-            List<MyTask> tasks = new List<MyTask>();
-
-            ListDataReader.ReadFromJsonFile(path, ref tasks);
-
-            taskManager = new MyTaskManager(tasks);
-        }
-
-        private List<ITablePrintable> ToTablePrintableList(List<MyTask> tasks, Type type)
-        {
-            List<ITablePrintable> tablePrintables = new List<ITablePrintable>();
-
-            foreach (MyTask task in tasks)
-            {
-                if (type.IsAssignableFrom(task.GetType()))
-                {
-                    tablePrintables.Add(task);
-                }
-            }
-
-            return tablePrintables;
         }
     }
 }

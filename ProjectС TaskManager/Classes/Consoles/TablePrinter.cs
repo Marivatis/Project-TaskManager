@@ -1,8 +1,9 @@
-﻿using System;
+﻿using ProjectС_TaskManager.Classes.MyTasks;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ProjectB_TaskManager.Classes.Consoles
+namespace ProjectС_TaskManager.Classes.Consoles
 {
     public class TablePrinter
     {
@@ -38,6 +39,21 @@ namespace ProjectB_TaskManager.Classes.Consoles
             }
 
             return table.ToString();
+        }
+
+        public static List<ITablePrintable> ToTablePrintableList(List<MyTask> tasks, Type type)
+        {
+            List<ITablePrintable> tablePrintables = new List<ITablePrintable>();
+
+            foreach (MyTask task in tasks)
+            {
+                if (type.IsAssignableFrom(task.GetType()))
+                {
+                    tablePrintables.Add(task);
+                }
+            }
+
+            return tablePrintables;
         }
     }
 }
