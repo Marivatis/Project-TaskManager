@@ -16,7 +16,7 @@ namespace ProjectС_TaskManager.Classes.Consoles
 
         private MyTaskManager taskManager;
 
-        public MyConsole() 
+        public MyConsole()
         {
             localDataManager = new LocalDataManager();
 
