@@ -34,7 +34,7 @@ namespace ProjectB_TaskManager.Classes.Consoles
 
             while (option != 0)
             {
-                option = MyConsoleReader.ReadInt32("Enter any main menu option --> ", 0, 7);
+                option = MyConsoleReader.ReadInt32("Enter any main menu option --> ", 0, 8);
 
                 MainMenuSwitch(option);
             }
@@ -59,17 +59,7 @@ namespace ProjectB_TaskManager.Classes.Consoles
                     AddTaskSwitch(option);
                     break;
                 case 2: // Print 
-                    if (taskManager.Count == 0)
-                    {
-                        Console.WriteLine("Task list is empty.");
-                        break;
-                    }
-
-                    Console.WriteLine("Yuor university tasks:");
-                    PrintTasks(typeof(MyUniversityTask));
-
-                    Console.WriteLine("Your general tasks:");
-                    PrintTasks(typeof(MyGeneralTask));
+                    PrintTasks(taskManager);
                     break;
                 case 3: // Sort tasks by remaining date
                     taskManager.SortTasksByRemainingDate();
@@ -85,7 +75,10 @@ namespace ProjectB_TaskManager.Classes.Consoles
                     taskManager.Clear();
                     Console.WriteLine("Task manager list has been successfully cleared.");
                     break;
-                case 7: // Print main menu
+                case 7: // Filter tasks
+                    FilterTasks();
+                    break;
+                case 8: // Print main menu
                     Printer.PrintMainMenu();
                     break;
             }
@@ -195,20 +188,44 @@ namespace ProjectB_TaskManager.Classes.Consoles
             }
         }
 
-        private void PrintTasks(Type type)
+        private Type ReadMyTaskType()
         {
-            List<ITablePrintable> list = ToTablePrintableList(taskManager.ToList(), type);
+            string typeString = MyConsoleReader.ReadString("Enter task type [University/General] --> ");
+
+            Type type = typeString.Equals("General") ? typeof(MyGeneralTask) : typeof(MyUniversityTask);
+
+            return type;
+        }
+        private void PrintTasks(MyTaskManager manager)
+        {
+            if (manager.Count == 0)
+            {
+                Console.WriteLine("Task manager list is empty.");
+                return;
+            }
+
+            Console.WriteLine("Your university tasks:");
+            PrintTasks(manager, typeof(MyUniversityTask));
+
+            Console.WriteLine("Your general tasks:");
+            PrintTasks(manager, typeof(MyGeneralTask));            
+        }
+        private void PrintTasks(MyTaskManager manager, Type type)
+        {
+            if (!manager.Any(task => type.IsAssignableFrom(task.GetType())))
+            {
+                return;
+            }
+
+            List<ITablePrintable> list = ToTablePrintableList(manager.ToList(), type);
             TablePrinter tablePrinter = new TablePrinter(list);
             tablePrinter.PrintTable();
         }
 
         private void RemoveTask()
         {
-            string typeString = MyConsoleReader.ReadString("Enter task type [University/General] --> ");
-
-            Type type = typeString.Equals("General") ? typeof(MyGeneralTask) : typeof(MyUniversityTask);
-
-            PrintTasks(type);
+            Type type = ReadMyTaskType();
+            PrintTasks(taskManager, type);
 
             int id = MyConsoleReader.ReadInt32("Enter task id you want to remove --> ", 1, 99);
 
@@ -227,28 +244,39 @@ namespace ProjectB_TaskManager.Classes.Consoles
 
         private void MarkTaskAsCompleted()
         {
-            PrintSpecializedTable();
+            Type type = ReadMyTaskType();
+            PrintTasks(taskManager, type);
 
             int id = MyConsoleReader.ReadInt32("Enter task id you completed --> ", 1, 99);
 
             taskManager.MarkAsCompleted(id);
         }
 
-        private void PrintSpecializedTable()
+        private void FilterTasks()
         {
-            string typeString = MyConsoleReader.ReadString("Enter task type [University/General] --> ");
+            Printer.PrintFilterMenu();
 
-            Type type = null;
-            if (typeString.Equals("University"))
+            int option = MyConsoleReader.ReadInt32("Enter any filtrating option --> ", 1, 2);
+
+            MyTaskManager taskManager = new MyTaskManager();
+
+            switch (option)
             {
-                type = typeof(MyUniversityTask);
-            }
-            else
-            {
-                type = typeof(MyGeneralTask);
+                case 1:
+                    DateTime date = MyConsoleReader.ReadDateTime("Enter preferable date to filter [dd.mm.yyyy] --> ", "dd.MM.yyyy");
+
+                    taskManager = this.taskManager.Filter(task => task.Deadline.Equals(date));
+                    break;
+                case 2:
+                    PrintPossibleEnumValues<MyTaskStatus>();
+
+                    MyTaskStatus status = MyConsoleReader.ReadEnum<MyTaskStatus>("Enter preferable task status to filter --> ");
+
+                    taskManager = this.taskManager.Filter(task => task.Status.Equals(status));
+                    break;
             }
 
-            PrintTasks(type);
+            PrintTasks(taskManager);
         }
 
         private void PrintPossibleEnumValues<T>()

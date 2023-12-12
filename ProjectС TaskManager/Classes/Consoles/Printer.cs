@@ -16,7 +16,8 @@ namespace ProjectB_TaskManager.Classes.Consoles
             Console.WriteLine("[4] - Mark task as comleted");
             Console.WriteLine("[5] - Remove task");
             Console.WriteLine("[6] - Clear task manager list");
-            Console.WriteLine("[7] - Show main menu");
+            Console.WriteLine("[7] - Filter tasks");
+            Console.WriteLine("[8] - Show main menu");
             Console.WriteLine("[0] - Exit");
         }
 
@@ -26,6 +27,12 @@ namespace ProjectB_TaskManager.Classes.Consoles
             Console.WriteLine("[2] - Add university task randomly");
             Console.WriteLine("[3] - Add general task");
             Console.WriteLine("[4] - Add general task randomly");
+        }
+
+        public static void PrintFilterMenu()
+        {
+            Console.WriteLine("[1] - Filter by deadline date");
+            Console.WriteLine("[2] - Filter by task status");
         }
     }
 }

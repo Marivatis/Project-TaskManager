@@ -105,6 +105,19 @@ namespace ProjectB_TaskManager.Classes.MyTasks
             return new List<MyTask>(tasks);
         }
         /// <summary>
+        /// Filters task manager list and returns <see cref="MyTaskmanager"/> collection containing filtred tasks
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <returns>
+        /// Returns <see cref="MyTaskmanager"/> collection containing filtred tasks by condition <paramref name="condition"/>
+        /// </returns>
+        public MyTaskManager Filter(Func<MyTask, bool> condition)
+        {
+            return new MyTaskManager(tasks.Where(condition).ToList());
+        }
+
+        /// <summary>
         /// Sorts tasks in task manager list in order by remaining date
         /// </summary>
         public void SortTasksByRemainingDate()
@@ -126,6 +139,7 @@ namespace ProjectB_TaskManager.Classes.MyTasks
                 }
             }
         }
+
         /// <summary>
         /// Copies all tasks to MyTask[] array.
         /// </summary>
