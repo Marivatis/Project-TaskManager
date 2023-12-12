@@ -6,9 +6,25 @@ namespace ProjectС_TaskManager.Classes.Consoles
 {
     public class Reader
     {
+        protected delegate string ConsoleReadLine();
+
+        protected static ConsoleReadLine ReadLine => ReadNonEmptyLine;
+
+        protected static string ReadNonEmptyLine()
+        {
+            string line = Console.ReadLine();
+
+            if (string.IsNullOrEmpty(line))
+            {
+                throw new ArgumentException(line, "Your input can`t be null or empty!");
+            }
+
+            return line;
+        }
+
         public static int ReadInt32()
         {
-            return Convert.ToInt32(Console.ReadLine());
+            return Convert.ToInt32(ReadLine.Invoke());
         }
 
         public static int ReadInt32(int minRange, int maxRange)
@@ -23,7 +39,8 @@ namespace ProjectС_TaskManager.Classes.Consoles
 
         public static DateTime ReadDateTime(string format)
         {
-            string input = Console.ReadLine();
+            string input = ReadLine.Invoke();
+
             DateTime date = DateTime.ParseExact(input, format, CultureInfo.InvariantCulture);
 
             return date;
@@ -32,7 +49,7 @@ namespace ProjectС_TaskManager.Classes.Consoles
         public static T ReadEnum<T>()
             where T : Enum
         {
-            string input = Console.ReadLine();
+            string input = ReadLine.Invoke();
 
             return (T) Enum.Parse(typeof(T), input);
         }

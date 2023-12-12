@@ -55,7 +55,7 @@ namespace ProjectС_TaskManager.Classes.Consoles
         public static string ReadString(string inputMessage)
         {
             Console.Write(inputMessage);
-            return Console.ReadLine();
+            return ReadLine.Invoke();
         }
 
         public static DateTime ReadDateTime(string inputMessage, string format)
