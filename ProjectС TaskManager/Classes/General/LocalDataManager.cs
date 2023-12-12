@@ -24,7 +24,18 @@ namespace ProjectС_TaskManager.Classes.General
         {
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
 
-           mainProjectPath = Path.Combine("..", "..", "..");
+            mainProjectPath = GoUpDirectories(basePath, 4);
+        }
+        private string GoUpDirectories(string path, int levels)
+        {
+            string absolutePath = Path.GetFullPath(path);
+
+            for (int i = 0; i < levels; i++)
+            {
+                absolutePath = Directory.GetParent(absolutePath)?.FullName ?? absolutePath;
+            }
+
+            return absolutePath;
         }
 
         public void SaveList(string path, List<MyTask> list)
