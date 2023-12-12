@@ -206,15 +206,7 @@ namespace ProjectB_TaskManager.Classes.Consoles
         {
             string typeString = MyConsoleReader.ReadString("Enter task type [University/General] --> ");
 
-            Type type = null;
-            if (typeString.Equals("University"))
-            {
-                type = typeof(MyUniversityTask);                
-            }
-            else
-            {
-                type = typeof(MyGeneralTask);
-            }
+            Type type = typeString.Equals("General") ? typeof(MyGeneralTask) : typeof(MyUniversityTask);
 
             PrintTasks(type);
 
