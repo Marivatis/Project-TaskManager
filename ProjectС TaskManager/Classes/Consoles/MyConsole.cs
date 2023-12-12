@@ -1,5 +1,7 @@
 ﻿using ProjectB_TaskManager.Classes.General;
 using ProjectB_TaskManager.Classes.MyTasks;
+using ProjectB_TaskManager.Enums;
+using ProjectС_TaskManager.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -115,12 +117,15 @@ namespace ProjectB_TaskManager.Classes.Consoles
                 MyUniversityTask task = new MyUniversityTask();
 
                 task.Id = MyConsoleReader.ReadInt32("Enter task id [1, 99] --> ", 1, 99);
-                task.CourseName = MyConsoleReader.ReadString("Enter course name --> ");
+
+                PrintPossibleEnumValues<UniversityCourses>();
+                task.CourseName = MyConsoleReader.ReadEnum<UniversityCourses>("Enter course name --> ");
+
                 task.Description = MyConsoleReader.ReadString("Enter task description --> ");
                 task.Deadline = MyConsoleReader.ReadDateTime("Enter task deadline [dd.mm.yyyy] --> ", "dd.MM.yyyy");
 
-                PrintPossibleTaskStatus();
-                task.Status = MyConsoleReader.ReadMyTaskStatus("Enter task status --> ");
+                PrintPossibleEnumValues<MyTaskStatus>();
+                task.Status = MyConsoleReader.ReadEnum<MyTaskStatus>("Enter task status --> ");
 
                 taskManager.Add(task);
             }
@@ -160,7 +165,7 @@ namespace ProjectB_TaskManager.Classes.Consoles
                 task.Title = MyConsoleReader.ReadString("Enter title --> ");
                 task.Description = MyConsoleReader.ReadString("Enter task description --> ");
                 task.Deadline = MyConsoleReader.ReadDateTime("Enter task deadline [dd.mm.yyyy] --> ", "dd.MM.yyyy");
-                task.Status = MyConsoleReader.ReadMyTaskStatus("Enter task status --> ");
+                task.Status = MyConsoleReader.ReadEnum<MyTaskStatus>("Enter task status --> ");
 
                 taskManager.Add(task);
             }
@@ -254,11 +259,19 @@ namespace ProjectB_TaskManager.Classes.Consoles
             PrintTasks(type);
         }
 
-        private void PrintPossibleTaskStatus()
+        private void PrintPossibleEnumValues<T>()
         {
-            string status = "[NotStarted, Inprogress, Completed, Overdue]";
+            string enumValues = GetPossibleEnumValues<T>();
 
-            Console.WriteLine(status);
+            Console.WriteLine(enumValues);
+        }
+        private string GetPossibleEnumValues<T>()
+        {
+            string[] enumValues = Enum.GetNames(typeof(T));
+
+            string info = string.Join(", ", enumValues);
+
+            return info;
         }
 
         private void GetProgramFilesPath()

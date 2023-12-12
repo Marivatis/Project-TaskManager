@@ -1,5 +1,6 @@
 ﻿using ProjectB_TaskManager.Classes.General;
 using ProjectB_TaskManager.Enums;
+using ProjectС_TaskManager.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,18 +11,18 @@ namespace ProjectB_TaskManager.Classes.MyTasks
 {
     public class MyUniversityTask : MyTask
     {
-        private string courseName;
+        private UniversityCourses courseName;
 
         public MyUniversityTask()
-            : this(0, "No Course", "No Description", DateTime.MinValue, MyTaskStatus.NotStarted) { }
+            : this(0, UniversityCourses.NoCourse, "No Description", DateTime.MinValue, MyTaskStatus.NotStarted) { }
 
-        public MyUniversityTask(int id, string courseName, string description, DateTime deadline, MyTaskStatus status)
+        public MyUniversityTask(int id, UniversityCourses courseName, string description, DateTime deadline, MyTaskStatus status)
             : base(id, description, deadline, status)
         {
             this.courseName = courseName;
         }
 
-        public string CourseName
+        public UniversityCourses CourseName
         {
             get
             {
@@ -29,19 +30,12 @@ namespace ProjectB_TaskManager.Classes.MyTasks
             }
             set
             {
-                if (value.Length > 11)
+                if (!Enum.IsDefined(typeof(UniversityCourses), value))
                 {
-                    throw new ArgumentException(nameof(value), "The course name length must be from 1 to 11 characters!");
+                    throw new ArgumentOutOfRangeException(nameof(value), "Value does not match enum UniversityCourses.");
                 }
 
-                if (string.IsNullOrEmpty(value)) 
-                {
-                    courseName = "No Course";
-                }
-                else
-                {
-                    courseName = value;
-                }
+                courseName = value;
             }
         }
 
@@ -113,7 +107,7 @@ namespace ProjectB_TaskManager.Classes.MyTasks
             StringFormatter formatter = new StringFormatter();
 
             tableRow.Append(formatter.FormatToLength(id.ToString(), 2) + " | ");
-            tableRow.Append(formatter.FormatToLength(courseName, 11) + " | ");
+            tableRow.Append(formatter.FormatToLength(courseName.ToString(), 11) + " | ");
 
             string[] description = formatter.FormatToLength(this.description, 21).Split('\n');
             tableRow.Append(description[0] + " | ");

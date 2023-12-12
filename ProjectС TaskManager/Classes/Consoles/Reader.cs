@@ -29,12 +29,12 @@ namespace ProjectB_TaskManager.Classes.Consoles
             return date;
         }
 
-        public static MyTaskStatus ReadMyTaskStatus()
+        public static T ReadEnum<T>()
+            where T : Enum
         {
             string input = Console.ReadLine();
-            MyTaskStatus status = (MyTaskStatus) Enum.Parse(typeof(MyTaskStatus), input);
 
-            return status;
+            return (T) Enum.Parse(typeof(T), input);
         }
     }
 }

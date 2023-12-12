@@ -1,4 +1,5 @@
 ﻿using ProjectB_TaskManager.Enums;
+using ProjectС_TaskManager.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +27,9 @@ namespace ProjectB_TaskManager.Classes.MyTasks
             return $"Some Title {random.Next(1, 100)}";
         }
 
-        public string GetCourseName()
+        public UniversityCourses GetCourseName()
         {
-            return $"Course {random.Next(1, 8)}";
+            return (UniversityCourses) random.Next(0, 8);
         }
 
         public string GetDescription()

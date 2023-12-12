@@ -1,4 +1,5 @@
 ﻿using ProjectB_TaskManager.Enums;
+using ProjectС_TaskManager.Enums;
 using System;
 using System.Globalization;
 
@@ -28,7 +29,6 @@ namespace ProjectB_TaskManager.Classes.Consoles
 
             return number;
         }
-
         public static int ReadInt32(string inputMessage)
         {
             int number;
@@ -77,22 +77,24 @@ namespace ProjectB_TaskManager.Classes.Consoles
             return date;
         }
 
-        public static MyTaskStatus ReadMyTaskStatus(string inputMessage)
+        public static T ReadEnum<T>(string inputMessage)
+            where T : Enum
         {
-            MyTaskStatus status = MyTaskStatus.NotStarted;
+            T enumValue = default;
 
             try
             {
                 Console.Write(inputMessage);
 
-                status = ReadMyTaskStatus();
+                enumValue = ReadEnum<T>();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                ReadEnum<T>(inputMessage);
             }
 
-            return status;
+            return enumValue;
         }
     }
 }

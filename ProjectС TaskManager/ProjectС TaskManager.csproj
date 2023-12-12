@@ -62,6 +62,7 @@
     <Compile Include="Classes\MyTasks\MyTaskRandomProperties.cs" />
     <Compile Include="Classes\MyTasks\MyUniversityTask.cs" />
     <Compile Include="Enums\MyTaskStatus.cs" />
+    <Compile Include="Enums\UniversityCourses.cs" />
     <Compile Include="Interfaces\IDuplicateCheckable.cs" />
     <Compile Include="Interfaces\ITablePrintable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
