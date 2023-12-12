@@ -35,7 +35,7 @@ namespace ProjectB_TaskManager.Classes.General
             {
                 if (index + length >= str.Length)
                 {
-                    strPart = str.Substring(index, str.Length - index - 1);
+                    strPart = str.Substring(index, str.Length - index);
                     formatedString.Append(strPart);
                 }
                 else
@@ -44,7 +44,7 @@ namespace ProjectB_TaskManager.Classes.General
                     formatedString.Append(strPart + '-' + '\n');
                 }
 
-                index += length;
+                index += length - 1;
             }
 
             return formatedString.ToString();
