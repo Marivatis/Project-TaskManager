@@ -9,15 +9,14 @@ namespace ProjectС_TaskManager.Classes.MyTasks
 {
     public class MyTaskManager : ICollection, IEnumerable<MyTask>, IDuplicateCheckable
     {
+        private Action<MyTask> checkIsDuplicate;
+
         private List<MyTask> tasks;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MyTaskManager"/> class.
         /// </summary>
-        public MyTaskManager()
-        {
-            tasks = new List<MyTask>();
-        }
+        public MyTaskManager() : this(new List<MyTask>()) { }
         /// <summary>
         /// Initializes a new instance of the <see cref="MyTaskManager"/> class 
         /// and copy all <see cref="MyTask"/> tasks from <paramref name="tasks"/>.
@@ -26,6 +25,11 @@ namespace ProjectС_TaskManager.Classes.MyTasks
         public MyTaskManager(List<MyTask> tasks)
         {
             this.tasks = tasks;
+
+            checkIsDuplicate = (item) =>
+            {
+                if (IsDuplicate(item)) throw new DuplicateNameException("Task with this course name and description already exists.");
+            };
         }
 
         /// <summary>
@@ -66,10 +70,7 @@ namespace ProjectС_TaskManager.Classes.MyTasks
                 throw new ArgumentNullException("The task has an null object reference.");
             }
 
-            if (IsDuplicate(item))
-            {
-                throw new DuplicateNameException("Task whith this course name and description already exists.");
-            }
+            checkIsDuplicate.Invoke(item);
 
             tasks.Add(item);
         }
