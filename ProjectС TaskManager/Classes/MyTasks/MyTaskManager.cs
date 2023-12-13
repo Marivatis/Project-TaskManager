@@ -11,13 +11,32 @@ namespace ProjectС_TaskManager.Classes.MyTasks
     {
         private List<MyTask> tasks;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MyTaskManager"/> class.
+        /// </summary>
         public MyTaskManager()
         {
             tasks = new List<MyTask>();
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MyTaskManager"/> class 
+        /// and copy all <see cref="MyTask"/> tasks from <paramref name="tasks"/>.
+        /// </summary>
+        /// <param name="tasks"></param>
         public MyTaskManager(List<MyTask> tasks)
         {
             this.tasks = tasks;
+        }
+
+        /// <summary>
+        /// Gets or sets task <see cref="MyTask"/> at the index <paramref name="index"/>
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public MyTask this[int index]
+        {
+            get { return tasks[index]; }
+            set { tasks[index] = value; }
         }
 
         /// <summary>
@@ -33,12 +52,6 @@ namespace ProjectС_TaskManager.Classes.MyTasks
         /// Gets a value indicating whether access to the task manager list is synchronized.
         /// </summary>
         public bool IsSynchronized => ((ICollection)tasks).IsSynchronized;
-
-        public MyTask this[int index]
-        {
-            get { return tasks[index]; }
-            set { tasks[index] = value; }
-        }
 
         /// <summary>
         /// Adds task to task manager list.
@@ -105,12 +118,12 @@ namespace ProjectС_TaskManager.Classes.MyTasks
             return new List<MyTask>(tasks);
         }
         /// <summary>
-        /// Filters task manager list and returns <see cref="MyTaskmanager"/> collection containing filtred tasks
+        /// Filters task manager list and returns <see cref="MyTaskManager"/> collection containing filtred tasks
         /// </summary>
         /// <param name="condition"></param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>
-        /// Returns <see cref="MyTaskmanager"/> collection containing filtred tasks by condition <paramref name="condition"/>
+        /// Returns <see cref="MyTaskManager"/> collection containing filtred tasks by condition <paramref name="condition"/>
         /// </returns>
         public MyTaskManager Filter(Func<MyTask, bool> condition)
         {
