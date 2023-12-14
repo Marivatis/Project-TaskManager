@@ -32,7 +32,7 @@ namespace ProjectС_TaskManager.Classes.MyTasks
             };
 
             SubscribeTasksToOverdueHandler(tasks);
-        }        
+        }
 
         /// <summary>
         /// Gets or sets task <see cref="MyTask"/> at the index <paramref name="index"/>
@@ -122,19 +122,7 @@ namespace ProjectС_TaskManager.Classes.MyTasks
         {
             return new List<MyTask>(tasks);
         }
-        /// <summary>
-        /// Filters task manager list and returns <see cref="MyTaskManager"/> collection containing filtred tasks
-        /// </summary>
-        /// <param name="condition"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns>
-        /// Returns <see cref="MyTaskManager"/> collection containing filtred tasks by condition <paramref name="condition"/>
-        /// </returns>
-        public MyTaskManager Filter(Func<MyTask, bool> condition)
-        {
-            return new MyTaskManager(tasks.Where(condition).ToList());
-        }
-
+        
         /// <summary>
         /// Sorts tasks in task manager list in order by remaining date
         /// </summary>
@@ -156,6 +144,18 @@ namespace ProjectС_TaskManager.Classes.MyTasks
                     return;
                 }
             }
+        }
+        /// <summary>
+        /// Filters task manager list and returns <see cref="MyTaskManager"/> collection containing filtred tasks
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <returns>
+        /// Returns <see cref="MyTaskManager"/> collection containing filtred tasks by condition <paramref name="condition"/>
+        /// </returns>
+        public MyTaskManager Filter(Func<MyTask, bool> condition)
+        {
+            return new MyTaskManager(tasks.Where(condition).ToList());
         }
 
         /// <summary>

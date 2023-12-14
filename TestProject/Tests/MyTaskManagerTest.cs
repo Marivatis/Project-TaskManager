@@ -12,15 +12,15 @@ namespace TestProject.Tests
 
         [TestMethod]
         [TestCategory(category_iCollection)]
-        public void Count_ValidReturn() 
+        public void Count_ValidReturn()
         {
             // Arrange
             MyTaskManager tasks = new MyTaskManager()
             {
                 new MyGeneralTask(1, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
                 new MyGeneralTask(2, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
-                new MyUniversityTask(3, "No course", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
-                new MyUniversityTask(4, "No course", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted)
+                new MyUniversityTask(3, UniversityCourses.NoCourse, "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
+                new MyUniversityTask(4, UniversityCourses.NoCourse, "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted)
             };
 
             // Act
@@ -94,8 +94,8 @@ namespace TestProject.Tests
             {
                 new MyGeneralTask(1, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
                 new MyGeneralTask(2, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
-                new MyUniversityTask(3, "No course", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
-                new MyUniversityTask(4, "No course", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted)
+                new MyUniversityTask(3, UniversityCourses.NoCourse, "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
+                new MyUniversityTask(4, UniversityCourses.NoCourse, "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted)
             };
 
             // Act
@@ -132,8 +132,8 @@ namespace TestProject.Tests
             {
                 new MyGeneralTask(1, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
                 new MyGeneralTask(2, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
-                new MyUniversityTask(3, "No course", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
-                new MyUniversityTask(4, "No course", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted)
+                new MyUniversityTask(3, UniversityCourses.NoCourse, "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
+                new MyUniversityTask(4, UniversityCourses.NoCourse, "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted)
             };
 
             // Act
@@ -183,6 +183,41 @@ namespace TestProject.Tests
 
         [TestMethod]
         [TestCategory(category_basic)]
+        public void RemoveAt_ValidIndexInput()
+        {
+            // Arrange
+            MyGeneralTask task1 = new MyGeneralTask(1, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted);
+            MyGeneralTask task2 = new MyGeneralTask(2, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted);
+
+            MyTaskManager tasks = new MyTaskManager() { task1, task2 };
+
+            // Act
+            tasks.RemoveAt(0);
+
+            // Assert
+            CollectionAssert.DoesNotContain(tasks, task1);
+        }
+
+        [TestMethod]
+        [TestCategory(category_basic)]
+        public void RemoveAt_InvalidIndexInput()
+        {
+            // Arrange
+            MyGeneralTask task1 = new MyGeneralTask(1, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted);
+            MyGeneralTask task2 = new MyGeneralTask(2, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted);
+
+            MyTaskManager tasks = new MyTaskManager() { task1, task2 };
+
+            // Act
+            tasks.RemoveAt(2);
+
+            // Assert
+            CollectionAssert.Contains(tasks, task1);
+            CollectionAssert.Contains(tasks, task2);
+        }
+
+        [TestMethod]
+        [TestCategory(category_basic)]
         public void ToList_FullManager()
         {
             // Arrange
@@ -190,8 +225,8 @@ namespace TestProject.Tests
             {
                 new MyGeneralTask(1, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
                 new MyGeneralTask(2, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
-                new MyUniversityTask(3, "No course", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
-                new MyUniversityTask(4, "No course", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted)
+                new MyUniversityTask(3, UniversityCourses.NoCourse, "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
+                new MyUniversityTask(4, UniversityCourses.NoCourse, "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted)
             };
 
             // Act
@@ -251,6 +286,88 @@ namespace TestProject.Tests
 
             // Assert
             CollectionAssert.AreEqual(new MyTaskManager(), tasks);
+        }
+
+        [TestMethod]
+        [TestCategory(category_basic)]
+        public void MarkAsCompleted_ValidIdInput()
+        {
+            // Arrange
+            MyTaskManager tasks = new MyTaskManager() 
+            {
+                new MyGeneralTask(1, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
+                new MyGeneralTask(2, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
+                new MyGeneralTask(3, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
+                new MyGeneralTask(4, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted)
+            };
+
+            // Act
+            tasks.MarkAsCompleted(1);
+            tasks.MarkAsCompleted(3);
+
+            // Arrange
+            Assert.AreEqual(tasks[0].Status, MyTaskStatus.Completed);
+            Assert.AreEqual(tasks[2].Status, MyTaskStatus.Completed);
+        }
+
+        [TestMethod]
+        [TestCategory(category_basic)]
+        public void MarkAsCompleted_InvalidIdInput()
+        {
+            // Arrange
+            MyTaskManager tasks = new MyTaskManager()
+            {
+                new MyGeneralTask(1, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
+                new MyGeneralTask(2, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
+            };
+
+            // Act
+            tasks.MarkAsCompleted(5);
+
+            // Arrange
+            Assert.AreEqual(tasks[0].Status, MyTaskStatus.NotStarted);
+            Assert.AreEqual(tasks[1].Status, MyTaskStatus.NotStarted);
+        }
+
+        [TestMethod]
+        [TestCategory(category_basic)]
+        public void Filter_ReturnFilteredTasks()
+        {
+            // Arrange
+            MyTaskManager tasks = new MyTaskManager()
+            {
+                new MyGeneralTask(1, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
+                new MyGeneralTask(2, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.Completed),
+                new MyGeneralTask(3, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.Completed),
+                new MyGeneralTask(4, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted)
+            };
+
+            // Act
+            MyTaskManager filteredTaskManager = tasks.Filter(task => task.Status.Equals(MyTaskStatus.Completed));
+
+            // Assert
+            Assert.AreEqual(2, filteredTaskManager.Count());
+            Assert.IsTrue(filteredTaskManager.All(task => task.Status.Equals(MyTaskStatus.Completed)));
+        }
+
+        [TestMethod]
+        [TestCategory(category_basic)]
+        public void Filter_ReturnEmptyTaskManager()
+        {
+            // Arrange
+            MyTaskManager tasks = new MyTaskManager()
+            {
+                new MyGeneralTask(1, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
+                new MyGeneralTask(2, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
+                new MyGeneralTask(3, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted),
+                new MyGeneralTask(4, "No title", "No Description", new DateTime(2008, 9, 17), MyTaskStatus.NotStarted)
+            };
+
+            // Act
+            MyTaskManager filteredTaskManager = tasks.Filter(task => task.Status.Equals(MyTaskStatus.Completed));
+
+            // Assert
+            Assert.AreEqual(0, filteredTaskManager.Count());
         }
     }
 }
