@@ -1,4 +1,5 @@
-﻿using ProjectС_TaskManager.Enums;
+﻿using ProjectС_TaskManager.Classes.Consoles;
+using ProjectС_TaskManager.Enums;
 using System;
 
 namespace ProjectС_TaskManager.Classes.MyTasks
@@ -16,7 +17,11 @@ namespace ProjectС_TaskManager.Classes.MyTasks
             this.description = description;
             this.deadline = deadline;
             this.status = status;
+
+            MyConsole.ProgramStarted += CheckIsOverdue;
         }
+
+        public event EventHandler<int> TaskOverdue;
 
         public int Id
         {
@@ -45,11 +50,6 @@ namespace ProjectС_TaskManager.Classes.MyTasks
             }
             set
             {
-                if (value < DateTime.UtcNow)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Deadline cannot be less than the current date.");
-                }
-
                 deadline = value;
             }
         }
@@ -84,5 +84,14 @@ namespace ProjectС_TaskManager.Classes.MyTasks
         public abstract string GetTableHeader();
         public abstract string GetTableRow();
         public abstract string GetTableFooter();
+
+        private void CheckIsOverdue(object sender, EventArgs e)
+        {
+            if (IsOverdue())
+            {
+                Status = MyTaskStatus.Overdue;
+                TaskOverdue.Invoke(this, Id);
+            }
+        }
     }
 }

@@ -18,17 +18,18 @@ namespace ProjectС_TaskManager.Classes.Consoles
 
         public MyConsole()
         {
-            localDataManager = new LocalDataManager();
-
-            tasksListPath = Path.Combine(localDataManager.MianProjectPath, "Tasks", "Tasks.json");
-            Console.WriteLine($"[Tasks saving file path is: {tasksListPath}]");
-
-            localDataManager.LoadList(tasksListPath, out List<MyTask> tasks);
-
-            taskManager = new MyTaskManager(tasks);
+            LoadTasks();
         }
 
+        public static event EventHandler ProgramStarted;
+
         public void Run()
+        {
+            ProgramStarted?.Invoke(this, EventArgs.Empty);
+
+            RunMainMenu();
+        }
+        private void RunMainMenu()
         {
             Printer.PrintMainMenu();
 
@@ -40,6 +41,18 @@ namespace ProjectС_TaskManager.Classes.Consoles
 
                 MainMenuSwitch(option);
             }
+        }
+
+        private void LoadTasks()
+        {
+            localDataManager = new LocalDataManager();
+
+            tasksListPath = Path.Combine(localDataManager.MianProjectPath, "Tasks", "Tasks.json");
+            Console.WriteLine($"[Tasks saving file path is: {tasksListPath}]");
+
+            localDataManager.LoadList(tasksListPath, out List<MyTask> tasks);
+
+            taskManager = new MyTaskManager(tasks);
         }
 
         private void MainMenuSwitch(int mainMenuOption)

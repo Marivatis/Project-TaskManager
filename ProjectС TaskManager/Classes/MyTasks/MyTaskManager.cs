@@ -30,7 +30,9 @@ namespace ProjectС_TaskManager.Classes.MyTasks
             {
                 if (IsDuplicate(item)) throw new DuplicateNameException("Task with this course name and description already exists.");
             };
-        }
+
+            SubscribeTasksToOverdueHandler(tasks);
+        }        
 
         /// <summary>
         /// Gets or sets task <see cref="MyTask"/> at the index <paramref name="index"/>
@@ -73,6 +75,8 @@ namespace ProjectС_TaskManager.Classes.MyTasks
             checkIsDuplicate.Invoke(item);
 
             tasks.Add(item);
+
+            item.TaskOverdue += TaskOverdueHandler;
         }
         /// <summary>
         /// Removes all tasks in task manager list.
@@ -195,6 +199,19 @@ namespace ProjectС_TaskManager.Classes.MyTasks
             }
 
             return false;
+        }
+
+        private void SubscribeTasksToOverdueHandler(List<MyTask> tasks)
+        {
+            foreach (MyTask task in tasks)
+            {
+                task.TaskOverdue += TaskOverdueHandler;
+            }
+        }
+
+        private void TaskOverdueHandler(object sender, int e)
+        {
+            Console.WriteLine($"Task with id {e} is overdue!");
         }
     }
 }
