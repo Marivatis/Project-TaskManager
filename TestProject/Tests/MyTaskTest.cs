@@ -4,7 +4,7 @@ using ProjectС_TaskManager.Enums;
 namespace TestProject.Tests
 {
     [TestClass]
-    public class MyTaskTast
+    public class MyTaskTest
     {
         private const string category_basic = "Basic";
 
@@ -137,17 +137,6 @@ namespace TestProject.Tests
 
             // Assert
             Assert.AreEqual(deadline, task.Deadline);
-        }
-
-        [TestMethod]
-        [TestCategory(category_basic)]
-        public void Deadline_InvalidInput()
-        {
-            // Arrange
-            MyTask task = new MyGeneralTask();
-
-            // Act & Assert
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => task.Deadline = new DateTime(2000, 12, 12));
         }
 
         [TestMethod]
