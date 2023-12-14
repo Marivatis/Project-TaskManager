@@ -208,10 +208,8 @@ namespace TestProject.Tests
 
             MyTaskManager tasks = new MyTaskManager() { task1, task2 };
 
-            // Act
-            tasks.RemoveAt(2);
-
-            // Assert
+            // Act & Assert
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => tasks.RemoveAt(2));
             CollectionAssert.Contains(tasks, task1);
             CollectionAssert.Contains(tasks, task2);
         }
